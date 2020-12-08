@@ -1,13 +1,16 @@
 import React from 'react';
 import WeatherInfoPanel from './WeatherInfoPanel'
 import WeatherHistoryPanel from './WeatherHistoryPanel'
+import {withStyles} from '@material-ui/styles'
+import styles from '../../stylesheets/WeatherStyles/WeatherPanels'
 
-
-export default function WeatherPanels() {
+function WeatherPanels(props) {
+    const {classes} = props
     return (
-        <section className="weather-panels">
+        <section className={classes.weatherPanels}>
             <WeatherInfoPanel/>
             <WeatherHistoryPanel/>
         </section>
     )
 }
+export default withStyles(styles) (WeatherPanels);

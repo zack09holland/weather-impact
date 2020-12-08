@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {Form, Button, Row, Col, ButtonGroup, ToggleButton} from "react-bootstrap";
-
+import {withStyles} from '@material-ui/styles'
+import styles from '../../stylesheets/WeatherStyles/WeatherForm'
 import axios from 'axios';
 
 import {connect} from "react-redux";
-// import Weather from "../../../server/models/Weather";
+import {compose} from 'redux'
 import {saveZipCode, saveWeatherData, saveTemperature, updateHistory} from "../../actions";
 
 class WeatherForm extends Component {
@@ -78,15 +79,16 @@ class WeatherForm extends Component {
             zipCode: this.state.zipCodeInput,
             tempMetric: this.state.tempMetric
         }).then(response => {
-            let weatherData = response.data;
-
             // do whatever you want with the weather data
+            // let weatherData = response.data;
+
         });
 	}
 	
     render() {
+        const{classes}= this.props
         return (
-            <Form className="weather-form" onSubmit={this.saveFormData}>
+            <Form className={classes.weatherForm} onSubmit={this.saveFormData}>
 
                 <Row type="flex" justify="center" align="center" className="zipCode">
                     <Col>
@@ -95,7 +97,7 @@ class WeatherForm extends Component {
                                       type="text"
                                       placeholder="Enter your zip code"
                                       onChange={this.onChange}
-                                      className="zipCodeInput"/>
+                                      className={classes.zipCodeInput}/>
                     </Col>
                 </Row>
 
@@ -130,7 +132,7 @@ class WeatherForm extends Component {
 
                 <Row type="flex" justify="center" align="center">
                     <Col span={4}>
-                        <Button className="save-btn" variant="primary" type="submit">
+                        <Button className={classes.saveBtn} variant="primary" type="submit">
                             Save
                         </Button>
                     </Col>
@@ -163,4 +165,4 @@ const mapDispatchToProps = () => {
 };
 
 // This connects our mapping the state & dispatch to props to use in WeatherForm
-export default connect(mapStateToProps, mapDispatchToProps())(WeatherForm);
+export default compose( connect(mapStateToProps, mapDispatchToProps()), withStyles(styles))(WeatherForm);

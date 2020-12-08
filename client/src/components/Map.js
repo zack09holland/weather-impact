@@ -1,33 +1,52 @@
-import React, { Component } from 'react';
-import mapboxgl from 'mapbox-gl';
-import '../stylesheets/Map.css'
-mapboxgl.accessToken = "pk.eyJ1IjoiemFjazA5aG9sbGFuZCIsImEiOiJja2Vieml2OTkwMjd0MnFtc2RqNXRwdGs2In0.cBO-3dyUVaa1EY2nR-HTow";
+import { withStyles } from "@material-ui/styles";
+import React, { Component } from "react";
+import ReactMapGL from "react-map-gl";
+
+import styles from "../stylesheets/MapStyles/MapContainer";
 
 class Map extends Component {
-    constructor(props) {
+	constructor(props) {
         super(props);
         this.state = {
-          lng: 5,
-          lat: 34,
-          zoom: 2
+          style: 'mapbox://styles/mapbox/light-v9',
+          viewport: {
+            longitude: -74,
+            latitude: 40.7,
+            zoom: 11,
+            maxZoom: 16
+          }
         };
       }
       componentDidMount() {
-        const map = new mapboxgl.Map({
-          container: this.mapContainer,
-          style: 'mapbox://styles/mapbox/streets-v11',
-          center: [this.state.lng, this.state.lat],
-          zoom: this.state.zoom
+        window.addEventListener('resize', this._resize);
+        this._resize();
+      }
+      _onViewportChange = (viewport) => {
+        this.setState({
+          viewport: { ...this.state.viewport, ...viewport }
         });
       }
-    render() { 
-        return ( 
-            <div>
-                <button>Click me</button>
-                <div ref={el => this.mapContainer = el} className='mapContainer'/>
-            </div>
-         );
-    }
+      _resize = () => {
+        this._onViewportChange({
+          width: window.innerWidth,
+          height: window.innerHeight
+        });
+      }
+    
+	render() {
+		const { viewport, style } = this.state;
+		const { open, classes } = this.props;
+		return (
+			<div className={classes.root} style={{position:"relative"}}>
+				<ReactMapGL
+                    {...viewport}
+                    mapStyle={style}
+					mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+                    onViewportChange={viewport => this._onViewportChange(viewport)}
+                    ></ReactMapGL>
+			</div>
+		);
+	}
 }
- 
-export default Map;
+
+export default withStyles(styles)(Map);

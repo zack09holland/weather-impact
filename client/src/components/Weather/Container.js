@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import {withStyles} from '@material-ui/styles'
+import styles from '../../stylesheets/WeatherStyles/Container'
+
 import Header from "../Header";
 import WeatherForm from "./WeatherForm";
 import WeatherPanels from "./WeatherPanels";
 
-function Container() {
+function Container(props) {
 	const [weatherData, setWeatherData] = useState(null);
+	const{classes} = props
 	return (
-		<section className="weather container">
+		<section className={classes.weather}>
 			<Header />
 			<WeatherForm />
 			<WeatherPanels weatherData={weatherData} />
@@ -14,4 +18,4 @@ function Container() {
 	);
 }
 
-export default Container;
+export default withStyles(styles)(Container);

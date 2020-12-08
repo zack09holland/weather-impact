@@ -1,17 +1,18 @@
 import React from 'react'
+import {withStyles} from '@material-ui/styles'
+import styles from '../stylesheets/HeaderStyles'
 
-function Header() {
+function Header(props) {
+    const {classes} = props
     return (
         <div>
-            <section className="header">
+            <section className={classes.header}>
                 <h1>
-                    weather impact
-                    {/* <span role="img" aria-label={"umbrella"}>☂️</span> */}
+                    Weather Impact
                 </h1>
-                <span className="annotation">(MERN Full Stack Website)</span>
             </section>
         </div>
     )
 }
 
-export default Header
+export default withStyles(styles) (Header);
