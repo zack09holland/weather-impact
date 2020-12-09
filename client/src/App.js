@@ -7,6 +7,7 @@ import {withStyles} from '@material-ui/styles'
 import styles from './stylesheets/AppStyles'
 
 import Dashboard from "./components/Dashboard.js";
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 function App(props) {
 	const {classes} = props;

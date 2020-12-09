@@ -50,6 +50,13 @@ const styles = (theme) => ({
 	  }),
 	  marginLeft: -drawerWidth,
 	},
+	container: {
+		width: "100%",
+		height: "100%",
+		display: "flex",
+		flexDirection: "column",
+		// alignItems: "center",
+	},
 	contentShift: {
 	  transition: theme.transitions.create('margin', {
 		easing: theme.transitions.easing.easeOut,
@@ -57,6 +64,7 @@ const styles = (theme) => ({
 	  }),
 	  marginLeft: 0,
 	},
+
   });
 
 
