@@ -7,14 +7,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 // Adding redux and reducers
-import { createStore } from "redux";
+import { createStore, applyMiddleware  } from "redux";
+import thunk from 'redux-thunk';
 import { Provider } from "react-redux";
 import rootReducer from "./reducers";
 
 // Creates our store to use our reducers and the chrome extension to debug the redux store
 const store = createStore(
 	rootReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+	applyMiddleware(thunk),
+	// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 ReactDOM.render(

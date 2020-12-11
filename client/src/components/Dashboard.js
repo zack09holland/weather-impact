@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useStore } from "react-redux";
+
 import clsx from "clsx";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -15,30 +17,30 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "../stylesheets/DashboardStyles";
 
 import Map from "./Mapping/Map";
-import Treeview from "./LayerController/LayerController";
-import getPropertyData from "../assets/APIs/api";
+import LayerController from "./LayerController/LayerController";
+import getPropertyData from "../assets/APIs/getPropertyData";
 
 function Dashboard(props) {
 	const { classes } = props;
+	// Initialize the Redux store so we can access the redux state
+	const store = useStore();
 
 	const [open, setOpen] = useState(true);
-	const [propertyData, setPropertyData] = useState();
 	const [showSpinner, setShowSpinner] = useState(false);
-	const [showMarkers, setShowMarkers] = useState(false);
 
-	// Get the property data from the server and set the state 
+	// Get the property data from the server and set the state
+	// This is called from this component as the dashboard will
+	// be the parent component that contains the map interface
+	// as well as the layer control panel
 	//	-getPropertyData is called from a seperate js file
 	useEffect(() => {
 		getPropertyData().then((data) => {
-			console.log(data);
-			setPropertyData(data);
+			// Save the property data to the Redux store
+			store.dispatch({ type: "SAVE_PROPERTY_DATA", payload: data });
+			// When the data is finished loading turn the spinner off
 			setShowSpinner(true);
 		});
 	}, []);
-
-	const handleMarkerCreation = (val) => {
-		setShowMarkers(val)
-	}
 
 	// Handle the opening and closing of the side panel
 	const handleDrawerOpen = () => {
@@ -88,7 +90,7 @@ function Dashboard(props) {
 				</div>
 				<Divider />
 				<div className={classes.container}>
-					<Treeview createMarkers={handleMarkerCreation} propertyData={propertyData} />
+					<LayerController />
 				</div>
 			</Drawer>
 			<main
@@ -98,12 +100,7 @@ function Dashboard(props) {
 			>
 				<div className={classes.drawerHeader} />
 
-				<Map
-					showMarkers = {showMarkers}
-					propertyData={propertyData}
-					showSpinner={showSpinner}
-					panelOpen={open}
-				/>
+				<Map showSpinner={showSpinner} />
 			</main>
 		</div>
 	);

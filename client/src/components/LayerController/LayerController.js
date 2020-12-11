@@ -10,20 +10,29 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import { withStyles } from "@material-ui/core/styles";
 import styles from "../../stylesheets/LayerControllerStyles/LayerController";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import {addLocationLayer, removeLocationLayer} from '../../assets/mapScripts/handleLocations'
+const url = 'shp/BikeRacks.zip'
 
 class LayerController extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-		};
+		this.state = {};
 	}
 
 	// Handle the creation of the markers, when the location checkbox is clicked
 	// we will set the state in the parent component so that the points will be
 	// created
 	handleLocations = (event) => {
-		console.log(event.target.value);
-		this.props.createMarkers(event.target.checked)
+		const checked = event.target.checked;
+
+		if(checked){
+			addLocationLayer(this.props.propertyData, this.props.map)
+		}
+		else{
+			removeLocationLayer(this.props.map)
+		}
 	};
 
 	render() {
@@ -86,4 +95,13 @@ class LayerController extends Component {
 	}
 }
 
-export default withStyles(styles)(LayerController);
+const mapStateToProps = (state) => {
+	return {
+		map: state.map,
+		propertyData: state.propertyData,
+	};
+};
+export default compose(
+	connect(mapStateToProps),
+	withStyles(styles)
+)(LayerController);
