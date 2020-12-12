@@ -3,9 +3,9 @@ const styles = (theme) => ({
 		background: "#272c34",
 		color: "#fff",
 		display: "flex",
-
 		height: "64px",
 	},
+	
 	searchBar: {
 		background: "#eaeef0",
 		height: "64px",
@@ -14,11 +14,12 @@ const styles = (theme) => ({
 		padding: "10px",
 		display: "flex",
 		flexDirection: 'row',
-		justifyContent: "space-between"
+		justifyContent: "space-between",
+		zIndex: "5",
 
-	},
+	},	
 	menuButton: {
-		marginRight: "2em",
+		marginRight: "1em",
 	},
 	title: {
 		flexGrow: 1,

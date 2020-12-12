@@ -1,16 +1,14 @@
-import ReactDOM from "react-dom";
 import React, { useRef, useState, useEffect } from "react";
+
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 import { useStore } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-
-import "./NewMap.css";
 import { withStyles } from "@material-ui/styles";
 import styles from "../../stylesheets/MapStyles/MapContainer";
+import clsx from "clsx";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -20,7 +18,7 @@ const Map = (props) => {
 	// Store variable so we can access the Redux state
 	const store = useStore();
 
-	const { classes, propertyData } = props;
+	const { classes, propertyData, dataPanel, layerPanel } = props;
 	// initialize map when component mounts
 	useEffect(() => {
 		const map = new mapboxgl.Map({
@@ -36,33 +34,7 @@ const Map = (props) => {
 		// add navigation control (zoom buttons)
 		map.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-		map.on("load", () => {
-
-
-		});
-
-
-		// map.addControl(
-		// 	new MapboxGeocoder({
-		// 		accessToken: mapboxgl.accessToken,
-		// 		mapboxgl: mapboxgl,
-		// 	}),
-		// 	"bottom-left"
-		// );
-		// add popup when user clicks a point
-		// map.on("click", "random-points-layer", (e) => {
-		// 	if (e.features.length) {
-		// 		const feature = e.features[0];
-		// 		// create popup node
-		// 		const popupNode = document.createElement("div");
-		// 		ReactDOM.render(<Popup feature={feature} />, popupNode);
-		// 		// set popup on map
-		// 		popUpRef.current
-		// 			.setLngLat(feature.geometry.coordinates)
-		// 			.setDOMContent(popupNode)
-		// 			.addTo(map);
-		// 	}
-		// });
+		map.on("load", () => {});
 
 		// clean up on unmount
 		return () => map.remove();
@@ -73,7 +45,15 @@ const Map = (props) => {
 			{props.showSpinner && (
 				<CircularProgress size={100} className={classes.spinner} />
 			)}
-			<div className="map-container" ref={mapContainerRef} />
+
+			{/* <div className={classes.mapContainer} ref={mapContainerRef} /> */}
+			<div
+				className={clsx(classes.mapContainer, {
+					[classes.contentShiftLeft]: dataPanel,
+					[classes.contentShiftRight] : layerPanel
+				})}
+				ref={mapContainerRef}
+			/>
 		</div>
 	);
 };

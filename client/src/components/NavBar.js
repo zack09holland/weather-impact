@@ -15,7 +15,7 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import BookmarksIcon from "@material-ui/icons/Bookmarks";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
+import HomeIcon from '@material-ui/icons/Home';
 import EqualizerIcon from "@material-ui/icons/Equalizer";
 import FolderIcon from "@material-ui/icons/Folder";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -41,7 +41,7 @@ class NavBar extends Component {
 			accessToken: mapboxgl.accessToken,
 			mapboxgl: mapboxgl,
 		});
-		const geoCodeElement = geocoder.onAdd(this.props.map);
+		geocoder.onAdd(this.props.map);
 
 		geocoder.addTo("#geocoder");
 	};
@@ -49,9 +49,7 @@ class NavBar extends Component {
 	render() {
 		const {
 			classes,
-			handleDrawerOpen,
-			dashboardClasses,
-			drawerOpen,
+			toggleDataPanel,
 		} = this.props;
 
 		return (
@@ -59,22 +57,18 @@ class NavBar extends Component {
 				<CssBaseline />
 				<AppBar
 					position="fixed"
-					className={clsx(dashboardClasses.appBar, classes.root, {
-						[dashboardClasses.appBarShift]: drawerOpen,
-					})}
+					className={clsx(classes.appBar, classes.root)}
 				>
 					<Toolbar>
 						<IconButton
 							color="inherit"
-							aria-label="open drawer"
-							onClick={handleDrawerOpen}
+							aria-label="go home"
 							edge="start"
 							className={clsx(
-								dashboardClasses.menuButton,
-								drawerOpen && dashboardClasses.hide
+								classes.menuButton,
 							)}
 						>
-							<MenuIcon />
+							<HomeIcon />
 						</IconButton>
 						<Typography variant="h6" className={classes.title}>
 							Weather Impact
@@ -94,7 +88,7 @@ class NavBar extends Component {
 							<Button>
 								<BookmarksIcon />
 							</Button>
-							<Button>
+							<Button onClick={toggleDataPanel}>
 								<EqualizerIcon />
 							</Button>
 							<Button>
