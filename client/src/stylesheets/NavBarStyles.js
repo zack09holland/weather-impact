@@ -1,8 +1,7 @@
 const styles = theme => ({
     root: {
         display: "flex",
-    	height: "64px",
-        width: "100vw"
+    	  height: "64px",
       },
       menuButton: {
         marginRight: "2em",

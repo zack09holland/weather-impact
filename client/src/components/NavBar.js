@@ -5,8 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import { withStyles } from "@material-ui/styles";
 import styles from "../stylesheets/NavBarStyles";
+import clsx from "clsx";
 
 class NavBar extends Component {
 	constructor(props) {
@@ -14,21 +17,31 @@ class NavBar extends Component {
 		this.state = {};
 	}
 	render() {
-		const { classes } = this.props;
+		const { classes, handleDrawerOpen, dashboardClasses, drawerOpen } = this.props;
 		return (
-			<div className={classes.root}>
-				<AppBar position="static">
+			<div >
+				<CssBaseline />
+				<AppBar
+					position="fixed"
+					className={clsx(dashboardClasses.appBar,classes.root,{
+						[dashboardClasses.appBarShift]: drawerOpen,
+					})}
+				>
 					<Toolbar>
 						<IconButton
-							edge="start"
-							className={classes.menuButton}
 							color="inherit"
-							aria-label="menu"
+							aria-label="open drawer"
+							onClick={handleDrawerOpen}
+							edge="start"
+							className={clsx(
+								dashboardClasses.menuButton,
+								drawerOpen && dashboardClasses.hide
+							)}
 						>
 							<MenuIcon />
 						</IconButton>
 						<Typography variant="h6" className={classes.title}>
-							News
+							Weather Impact
 						</Typography>
 						<Button color="inherit">Login</Button>
 					</Toolbar>

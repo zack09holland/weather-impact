@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -13,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Use API routes from the api folder
 const apis = require("./api");
 app.use("/api", apis);
+app.use(express.static(path.join(__dirname, '../client/src/assets/data')));
 
 // Connect to Mongo
 mongoose.connect(process.env.DB, {

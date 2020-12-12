@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useStore } from "react-redux";
 
-import clsx from "clsx";
 
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -15,8 +14,10 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 import { withStyles } from "@material-ui/core/styles";
 import styles from "../stylesheets/DashboardStyles";
+import clsx from "clsx";
 
 import Map from "./Mapping/Map";
+import NavBar from "./NavBar";
 import LayerController from "./LayerController/LayerController";
 import getPropertyData from "../assets/APIs/getPropertyData";
 
@@ -25,7 +26,7 @@ function Dashboard(props) {
 	// Initialize the Redux store so we can access the redux state
 	const store = useStore();
 
-	const [open, setOpen] = useState(true);
+	const [drawerOpen, setDrawerOpen] = useState(true);
 	const [showSpinner, setShowSpinner] = useState(false);
 
 	// Get the property data from the server and set the state
@@ -44,41 +45,21 @@ function Dashboard(props) {
 
 	// Handle the opening and closing of the side panel
 	const handleDrawerOpen = () => {
-		setOpen(true);
+		setDrawerOpen(true);
 	};
 	const handleDrawerClose = () => {
-		setOpen(false);
+		setDrawerOpen(false);
 	};
 
 	return (
 		<div className={classes.root}>
 			<CssBaseline />
-			<AppBar
-				position="fixed"
-				className={clsx(classes.appBar, {
-					[classes.appBarShift]: open,
-				})}
-			>
-				<Toolbar>
-					<IconButton
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-						className={clsx(classes.menuButton, open && classes.hide)}
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography variant="h6" noWrap>
-						Weather Impact
-					</Typography>
-				</Toolbar>
-			</AppBar>
+		
 			<Drawer
 				className={classes.drawer}
 				variant="persistent"
 				anchor="left"
-				open={open}
+				open={drawerOpen}
 				classes={{
 					paper: classes.drawerPaper,
 				}}
@@ -95,9 +76,15 @@ function Dashboard(props) {
 			</Drawer>
 			<main
 				className={clsx(classes.content, {
-					[classes.contentShift]: open,
+					[classes.contentShift]: drawerOpen,
 				})}
 			>
+				<NavBar
+					drawerOpen={drawerOpen}
+					handleDrawerOpen={handleDrawerOpen}
+					dashboardClasses={classes}
+				/>
+
 				<div className={classes.drawerHeader} />
 
 				<Map showSpinner={showSpinner} />
