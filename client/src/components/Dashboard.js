@@ -4,9 +4,7 @@ import { useStore } from "react-redux";
 
 import Drawer from "@material-ui/core/Drawer";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -34,14 +32,14 @@ function Dashboard(props) {
 	// be the parent component that contains the map interface
 	// as well as the layer control panel
 	//	-getPropertyData is called from a seperate js file
-	useEffect(() => {
-		getPropertyData().then((data) => {
-			// Save the property data to the Redux store
-			store.dispatch({ type: "SAVE_PROPERTY_DATA", payload: data });
-			// When the data is finished loading turn the spinner off
-			setShowSpinner(true);
-		});
-	}, []);
+	// useEffect(() => {
+	// 	getPropertyData().then((data) => {
+	// 		// Save the property data to the Redux store
+	// 		store.dispatch({ type: "SAVE_PROPERTY_DATA", payload: data });
+	// 		// When the data is finished loading turn the spinner off
+	// 		setShowSpinner(false);
+	// 	});
+	// }, []);
 
 	// Handle the opening and closing of the side panel
 	const handleDrawerOpen = () => {
@@ -65,8 +63,9 @@ function Dashboard(props) {
 				}}
 			>
 				<div className={classes.drawerHeader}>
-					<IconButton onClick={handleDrawerClose}>
-						<ChevronLeftIcon />
+					<h5>Layers</h5>
+					<IconButton  onClick={handleDrawerClose}>
+						<ChevronLeftIcon style={{ color: "white" }}  />
 					</IconButton>
 				</div>
 				<Divider />

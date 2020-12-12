@@ -1,8 +1,12 @@
 import ReactDOM from "react-dom";
 import React, { useRef, useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
 import { useStore } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 import "./NewMap.css";
 import { withStyles } from "@material-ui/styles";
@@ -38,7 +42,13 @@ const Map = (props) => {
 		});
 
 
-
+		// map.addControl(
+		// 	new MapboxGeocoder({
+		// 		accessToken: mapboxgl.accessToken,
+		// 		mapboxgl: mapboxgl,
+		// 	}),
+		// 	"bottom-left"
+		// );
 		// add popup when user clicks a point
 		// map.on("click", "random-points-layer", (e) => {
 		// 	if (e.features.length) {
@@ -60,7 +70,7 @@ const Map = (props) => {
 
 	return (
 		<div>
-			{!props.showSpinner && (
+			{props.showSpinner && (
 				<CircularProgress size={100} className={classes.spinner} />
 			)}
 			<div className="map-container" ref={mapContainerRef} />
