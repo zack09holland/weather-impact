@@ -41,6 +41,7 @@ class NavBar extends Component {
 			accessToken: mapboxgl.accessToken,
 			mapboxgl: mapboxgl,
 		});
+		const geoCodeElement = geocoder.onAdd(this.props.map);
 
 		geocoder.addTo("#geocoder");
 	};

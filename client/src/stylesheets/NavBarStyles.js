@@ -25,7 +25,13 @@ const styles = (theme) => ({
 	},
 	geocoder: {
 		zIndex: 1,
-		textAlign: "center",
+		"& .mapboxgl-ctrl-geocoder--input":{
+			minWidth: "30vw"
+		},
+		"& .mapboxgl-ctrl-geocoder":{
+			minWidth: "30vw"
+		}
+
 		
 		
 	},
